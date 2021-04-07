@@ -11,13 +11,18 @@ import {
 
 function ShoppingCart({ navigation }) {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={require('../assets/mascot2x.png')} style={{
-                width: 100,
-                height: 120
-            }} />
-            <Text>Không có sản phẩm nào trong giỏ hàng của bạn.</Text>
-            <Button title="Tiếp tục mua sắm" onPress={() => navigation.navigate('Home')} />
+        // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        //     <Image source={require('../assets/mascot2x.png')} style={{
+        //         width: 100,
+        //         height: 120
+        //     }} />
+        //     <Text>Không có sản phẩm nào trong giỏ hàng của bạn.</Text>
+        //     <Button title="Tiếp tục mua sắm" onPress={() => navigation.navigate('Home')} />
+        // </View>
+        <View>
+            <View>
+
+            </View>
         </View>
     );
 };

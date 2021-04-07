@@ -29,7 +29,7 @@ const ProfileScreen = ({ navigation }) => {
           </View>
           <View style={styles.textContainer}>
             <Text style={styles.welcomeText}>Chào mừng bạn đến với Tiki</Text>
-            <Text style={styles.authText} onPress={() => navigation.navigate('Register')}>Đăng nhập/Đăng ký</Text>
+            <Text style={styles.authText} onPress={() => navigation.navigate('ItemDetail')}>Đăng nhập/Đăng ký</Text>
           </View>
           <FontAwesome name="angle-right" size={26} color="#1e88e5" onPress={() => navigation.navigate('Register')} />
         </View>

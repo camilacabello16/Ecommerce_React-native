@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, ScrollView, TextInput, Image } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -23,10 +23,8 @@ const HomeScreen = ({ navigation }) => {
       {/*  */}
       <View style={styles.bodyContainer}>
         <ScrollView>
-          <HomeSectionComponent />
-          <HomeSectionComponent />
-          <HomeSectionComponent />
-          <HomeSectionComponent />
+          <Image source={require('../assets/section_banner.png')} style={styles.sectionImage} />
+          <HomeSectionComponent navigation={navigation} />
         </ScrollView>
       </View>
     </View>
@@ -39,7 +37,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flexDirection: 'row',
-    paddingTop: 50,
+    paddingTop: 6,
     paddingBottom: 4,
     backgroundColor: '#1e88e5',
   },
@@ -64,6 +62,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  sectionImage: {
+    width: 396,
+    height: 130,
+    borderRadius: 4,
   },
   //
   bodyContainer: {

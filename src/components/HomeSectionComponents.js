@@ -6,7 +6,9 @@ import {
   Text,
   Dimensions,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 
 const { width } = Dimensions.get('window');
 
@@ -16,23 +18,24 @@ const item_image_2 = require('../assets/item_image_2.png');
 const item_image_3 = require('../assets/item_image_3.png');
 const item_image_4 = require('../assets/item_image_4.png');
 
-const ProductItem = ({ image, name, price }) => (
-  <View style={styles.itemContainer}>
-    <Image source={image} style={styles.itemImage} />
-    <Text style={styles.itemName} numberOfLines={2}>
-      {name}
-    </Text>
-    <Text style={styles.itemPrice}>{price}</Text>
+const ProductItem = ({ image, name, price, navigation }) => (
+  <View style={styles.itemContainer} >
+    <TouchableOpacity onPress={() => navigation.navigate('ItemDetail')}>
+      <Image source={image} style={styles.itemImage} />
+      <Text style={styles.itemName} numberOfLines={2} >
+        {name}
+      </Text>
+      <Text style={styles.itemPrice}>{price}</Text>
+    </TouchableOpacity>
   </View>
 );
 
-const HomeSectionComponent = () => {
+const HomeSectionComponent = ({ navigation }) => {
   return (
     <View style={styles.sectionContainer}>
       {/*  */}
-      <Text style={styles.sectionTitle}>Điện thoại - Máy tính bảng</Text>
+      <Text style={styles.sectnionTitle} >Điện thoại - Máy tính bảng</Text>
       {/*  */}
-      <Image source={section_banner} style={styles.sectionImage} />
       {/*  */}
       <ScrollView horizontal={true}>
         <View style={styles.filterContainer}>
@@ -54,7 +57,9 @@ const HomeSectionComponent = () => {
                   index === 0
                     ? styles.filterActiveText
                     : styles.filterInactiveText
-                }>
+                }
+                onPress={() => navigation.navigate('Login')}
+              >
                 {e}
               </Text>
             </View>
@@ -75,6 +80,7 @@ const HomeSectionComponent = () => {
                 name="Điện thoại Vsmart Bee (Smart Bee)"
                 image={e.image1}
                 price="699.000đ"
+                navigation={navigation}
               />
               <ProductItem
                 name="Điện thoại Vsmart Joy 2 Vsmart Joy 2"
@@ -87,7 +93,7 @@ const HomeSectionComponent = () => {
       </ScrollView>
       {/*  */}
       <View style={styles.seeMoreContainer}>
-        <Text style={styles.seeMoreText}>XEM THÊM 636 SẢN PHẨM </Text>
+        <Text style={styles.seeMoreText} onPress={() => navigation.navigate('Login')}>XEM TẤT CẢ SẢN PHẨM </Text>
       </View>
     </View>
   );

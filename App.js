@@ -12,6 +12,9 @@ import Register from './src/screens/Register';
 import Login from './src/screens/Login';
 import Support from './src/screens/Support';
 import ShoppingCart from './src/screens/ShoppingCart';
+import ItemDetail from './src/screens/ItemDetail';
+import Payment from './src/screens/Payment';
+import PaymentMethods from './src/screens/PaymentMethods';
 
 
 
@@ -68,6 +71,9 @@ const App = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Support" component={Support} />
         <Stack.Screen name="ShoppingCart" component={ShoppingCart} />
+        <Stack.Screen name="ItemDetail" component={ItemDetail} />
+        <Stack.Screen name="Payment" component={Payment} />
+        <Stack.Screen name="PaymentMethods" component={PaymentMethods} />
       </Stack.Navigator>
     </NavigationContainer>
   );

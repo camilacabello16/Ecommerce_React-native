@@ -5,15 +5,15 @@ import { createStackNavigator } from 'react-navigation';
 const Header = ({ title, navigation }) => (
   <View style={styles.headerContainer}>
     {/*  */}
-    <View style={styles.cartContainer}>
+    {/* <View style={styles.cartContainer}>
       <View style={styles.cartIcon} />
-    </View>
+    </View> */}
     {/*  */}
     <Text style={styles.headerText}>{title}</Text>
     {/*  */}
-    <View style={styles.cartContainer}>
+    {/* <View style={styles.cartContainer}>
       <FontAwesome name="shopping-cart" size={HEADER_ICON_SIZE} color="#fff" onPress={() => navigation.navigate('ShoppingCart')} />
-    </View>
+    </View> */}
   </View>
 );
 
@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 20,
     backgroundColor: '#1e88e5',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingBottom: 12,
   },
   cartContainer: {
