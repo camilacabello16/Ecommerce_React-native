@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar } from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Button } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -23,6 +23,7 @@ const ProfileScreen = ({ navigation }) => {
       <Header title="Cá nhân" navigation={navigation} />
       {/*  */}
       <View style={styles.bodyContainer}>
+        <Button title="Đăng bán" onPress={() => navigation.navigate('ItemPost')} />
         <View style={styles.userContainer}>
           <View style={styles.avatarContainer}>
             <MaterialIcons name="person" size={26} color="#fff" />
@@ -36,8 +37,8 @@ const ProfileScreen = ({ navigation }) => {
         {/*  */}
         <View style={styles.divider} />
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Quản lý đơn hàng</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('ItemPost')} />
+          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Myitem')}>Quản lý cửa hàng</Text>
+          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Myitem')} />
         </View>
         <View style={styles.itemContainer}>
           <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Sản phẩm đã mua</Text>

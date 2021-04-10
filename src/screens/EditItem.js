@@ -24,7 +24,6 @@ function ItemDetail({ navigation }) {
     return (
         <ScrollView>
             <ScrollView>
-                <Button title="SỬA" onPress={() => navigation.navigate('ShopItem')} />
                 <Button title="XÓA" onPress={() => navigation.navigate('ShopItem')} />
                 <View style={{}}>
                     {/* <CheckBox

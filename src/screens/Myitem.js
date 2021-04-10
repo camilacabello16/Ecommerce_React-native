@@ -10,6 +10,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import CheckBox from '@react-native-community/checkbox';
 
 const { width } = Dimensions.get('window');
 
@@ -19,19 +20,31 @@ const item_image_2 = require('../assets/item_image_2.png');
 const item_image_3 = require('../assets/item_image_3.png');
 const item_image_4 = require('../assets/item_image_4.png');
 
-const ProductItem = ({ image, name, price, navigation }) => (
-    <View style={styles.itemContainer} >
-        <TouchableOpacity onPress={() => navigation.navigate('ItemDetail')}>
-            <Image source={image} style={styles.itemImage} />
-            <Text style={styles.itemName} numberOfLines={2} >
-                {name}
-            </Text>
-            <Text style={styles.itemPrice}>{price}</Text>
-        </TouchableOpacity>
-    </View>
-);
+const ProductItem = ({ image, name, price, navigation }) => {
+    const [checked, setChecked] = useState(false);
+    return (
+        <View style={styles.itemContainer} >
+            <CheckBox
+                disabled={false}
+                value={checked}
+                onValueChange={(newValue) => setChecked(newValue)}
+            />
+            <TouchableOpacity onPress={() => navigation.navigate('EditItem')}>
+                <Image source={image} style={styles.itemImage} />
+                <Text style={styles.itemName} numberOfLines={2} >
+                    {name}
+                </Text>
+                <Text style={styles.itemPrice}>{price}</Text>
+            </TouchableOpacity>
+            <Button title="XÓA" onPress={() => navigation.navigate('Myitem')} />
+            <Button title="SỬA" onPress={() => navigation.navigate('EditItem')} />
 
-const ShopItem = ({ navigation }) => {
+        </View>
+
+    );
+}
+
+const Myitem = ({ navigation }) => {
     const [products, setProducts] = useState([
         {
             id: 1,
@@ -99,8 +112,8 @@ const ShopItem = ({ navigation }) => {
             {/*  */}
             <View style={{ flexDirection: "row" }}>
                 <Text style={styles.sectnionTitle} >Tran Thanh Hai</Text>
-                {/* <Button title="THÊM" onPress={() => navigation.navigate('ItemPost')} />
-                <Button title="XÓA" onPress={() => navigation.navigate('ShopItem')} /> */}
+                <Button title="THÊM" onPress={() => navigation.navigate('ItemPost')} />
+                <Button title="XÓA" onPress={() => navigation.navigate('Myitem')} />
             </View>
             {/*  */}
             {/*  */}
@@ -144,7 +157,7 @@ const ShopItem = ({ navigation }) => {
     );
 };
 
-export default ShopItem;
+export default Myitem;
 
 const styles = StyleSheet.create({
     sectionContainer: {
@@ -192,13 +205,13 @@ const styles = StyleSheet.create({
     //
     listItemContainer: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         flexWrap: 'wrap',
         padding: 16,
         justifyContent: 'space-between'
     },
     itemContainer: {
-        width: '49%',
+        width: '100%',
         marginTop: 10,
         shadowColor: "#000",
         shadowOffset: {
@@ -213,7 +226,7 @@ const styles = StyleSheet.create({
         paddingTop: 25
     },
     itemImage: {
-        width: '100%',
+        width: '50%',
         height: 120,
         resizeMode: 'contain'
     },

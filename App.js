@@ -18,6 +18,8 @@ import PaymentMethods from './src/screens/PaymentMethods';
 import ShopItem from './src/screens/ShopItem';
 import ItemPost from './src/screens/ItemPost';
 import EditItem from './src/screens/EditItem';
+import Myitem from './src/screens/Myitem';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -78,6 +80,7 @@ const App = () => {
         <Stack.Screen name="ShopItem" component={ShopItem} />
         <Stack.Screen name="ItemPost" component={ItemPost} />
         <Stack.Screen name="EditItem" component={EditItem} />
+        <Stack.Screen name="Myitem" component={Myitem} />
       </Stack.Navigator>
     </NavigationContainer>
   );
