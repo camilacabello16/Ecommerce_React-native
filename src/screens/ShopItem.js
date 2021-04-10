@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
     StyleSheet,
+    Button,
     Image,
     View,
     Text,
@@ -20,7 +21,7 @@ const item_image_4 = require('../assets/item_image_4.png');
 
 const ProductItem = ({ image, name, price, navigation }) => (
     <View style={styles.itemContainer} >
-        <TouchableOpacity onPress={() => navigation.navigate('ItemDetail')}>
+        <TouchableOpacity onPress={() => navigation.navigate('EditItem')}>
             <Image source={image} style={styles.itemImage} />
             <Text style={styles.itemName} numberOfLines={2} >
                 {name}
@@ -96,7 +97,11 @@ const ShopItem = ({ navigation }) => {
     return (
         <View style={styles.sectionContainer}>
             {/*  */}
-            <Text style={styles.sectnionTitle} >Tran Thanh Hai</Text>
+            <View style={{ flexDirection: "row" }}>
+                <Text style={styles.sectnionTitle} >Tran Thanh Hai</Text>
+                <Button title="THÊM" onPress={() => navigation.navigate('ItemPost')} />
+                <Button title="XÓA" onPress={() => navigation.navigate('ShopItem')} />
+            </View>
             {/*  */}
             {/*  */}
             <ScrollView horizontal={true}>
@@ -135,7 +140,7 @@ const ShopItem = ({ navigation }) => {
                 </View>
             </ScrollView>
             {/*  */}
-        </View>
+        </View >
     );
 };
 

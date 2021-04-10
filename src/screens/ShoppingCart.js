@@ -11,12 +11,11 @@ import {
 import CheckBox from '@react-native-community/checkbox';
 const item_image_4 = require('../assets/item_image_4.png');
 
-const ProductItem = ({ image, name, priceEach }) => {
+const ProductItem = ({ image, name, priceEach, isChecked, handleQuantityIncrease, handleQuantityDecrease }) => {
 
-    const [checked, setChecked] = useState(false);
-    const [quantity, setQuantity] = useState(1);
-    const [price, setPrice] = useState(priceEach);
-    const Price = priceEach;
+    const [checked, setChecked] = useState(isChecked);
+    const [quantity, setQuantity] = useState(0);
+    const [price, setPrice] = useState(0);
     return (
         <View style={{ flexDirection: "row" }} >
             <CheckBox
@@ -31,18 +30,22 @@ const ProductItem = ({ image, name, priceEach }) => {
             <Text>
                 {name}
             </Text>
-            <Text style={{ fontSize: 20 }}>{Price}</Text>
+            <Text style={{ fontSize: 20 }}>{priceEach}</Text>
             <View style={{ flexDirection: "row" }}>
                 <Button title="-" onPress={() => {
                     if (quantity > 0) {
                         setQuantity(quantity - 1);
-                        setPrice(Price * (quantity - 1));
+                        setPrice(priceEach * (quantity - 1));
+                        if (checked)
+                            handleQuantityDecrease(priceEach);
                     }
                 }} />
                 <Text>{quantity}</Text>
                 <Button title="+" onPress={() => {
                     setQuantity(quantity + 1);
-                    setPrice(Price * (quantity + 1));
+                    setPrice(priceEach * (quantity + 1));
+                    if (checked)
+                        handleQuantityIncrease(priceEach);
                 }} />
             </View>
         </View>
@@ -51,46 +54,63 @@ const ProductItem = ({ image, name, priceEach }) => {
 
 function ShoppingCart({ navigation }) {
     const [total, setTotal] = useState(0);
-    const [checked, setChecked] = useState(false);
+    const [checkedAll, setCheckedAll] = useState(false);
     const [list, setList] = useState([
         {
             id: 0,
             image: item_image_4,
             name: "Điện Thoại Chính Hãng",
-            priceEach: "2152"
+            priceEach: "2152",
+            isChecked: true
         },
         {
             id: 1,
             image: item_image_4,
             name: "Điện Thoại Chính Hãng",
-            priceEach: "2153"
+            priceEach: "2153",
+            isChecked: true
         },
         {
             id: 2,
             image: item_image_4,
             name: "Điện Thoại Chính Hãng",
-            priceEach: "2154"
+            priceEach: "2154",
+            isChecked: true
         },
         {
             id: 3,
             image: item_image_4,
             name: "Điện Thoại Chính Hãng",
-            priceEach: "2155"
+            priceEach: "2155",
+            isChecked: true
         },
         {
             id: 4,
             image: item_image_4,
             name: "Điện Thoại Chính Hãng",
-            priceEach: "2156"
+            priceEach: "2156",
+            isChecked: true
         },
         {
             id: 5,
             image: item_image_4,
             name: "Điện Thoại Chính Hãng",
-            priceEach: "2157"
+            priceEach: "2157",
+            isChecked: true
         }
     ]);
 
+    const handleQuantityIncrease = (amountChanged) => {
+        setTotal(total + parseInt(amountChanged, 10));
+    }
+
+    const handleQuantityDecrease = (amountChanged) => {
+        setTotal(total - parseInt(amountChanged, 10));
+    }
+
+    const handleCheckboxChange = (value) => {
+        setCheckedAll(value);
+    }
 
     return (
         // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -105,8 +125,8 @@ function ShoppingCart({ navigation }) {
             <View>
                 <CheckBox
                     disabled={false}
-                    value={checked}
-                    onValueChange={(newValue) => setChecked(newValue)}
+                    value={checkedAll}
+                    onValueChange={handleCheckboxChange}
 
                 />
                 <Text>Tất cả</Text>
@@ -118,6 +138,9 @@ function ShoppingCart({ navigation }) {
                     image={product.image}
                     name={product.name}
                     priceEach={product.priceEach}
+                    isChecked={product.isChecked}
+                    handleQuantityDecrease={handleQuantityDecrease}
+                    handleQuantityIncrease={handleQuantityIncrease}
                 />
             )}
             {/* {list.map((product) =>

@@ -136,7 +136,7 @@ const HomeSectionComponent = ({ navigation }) => {
       </ScrollView>
       {/*  */}
       <View style={styles.seeMoreContainer}>
-        <Text style={styles.seeMoreText} onPress={() => navigation.navigate('Login')}>XEM TẤT CẢ SẢN PHẨM </Text>
+        <Text style={styles.seeMoreText} onPress={() => navigation.navigate('ItemPost')}>XEM TẤT CẢ SẢN PHẨM </Text>
       </View>
     </View>
   );

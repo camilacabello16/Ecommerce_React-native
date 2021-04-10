@@ -37,7 +37,7 @@ const ProfileScreen = ({ navigation }) => {
         <View style={styles.divider} />
         <View style={styles.itemContainer}>
           <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Quản lý đơn hàng</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Register')} />
+          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('ItemPost')} />
         </View>
         <View style={styles.itemContainer}>
           <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Sản phẩm đã mua</Text>

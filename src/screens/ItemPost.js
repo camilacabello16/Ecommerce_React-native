@@ -1,30 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from 'react-navigation';
+import { launchImageLibrary } from 'react-native-image-picker';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native';
 
 function ItemPost({ navigation }) {
     const [title, setTitle] = useState('');
-    const [describe, setDescribe] = useState('');
+    const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
 
     const handleTitle = (text) => {
         setTitle(text);
     }
 
-    const handleDescribe = (text) => {
-        setDescribe(text);
+    const handleDescription = (text) => {
+        setdescription(text);
     }
     const handlePrice = (text) => {
         setPrice(text);
     }
 
+    const handleUploadImage = () => {
+        const options = {
+            maxWidth: 2000,
+            maxHeight: 2000,
+            storageOptions: {
+                skipBackup: true,
+                path: 'images'
+            }
+        };
+        launchImageLibrary(options, response => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                const source = { uri: response.uri };
+                console.log(source);
+            }
+        });
+    }
 
-    const check = (title, describe, price) => {
-        alert('title: ' + title + 'describe: ' + describe + 'price: ' + price)
+    const check = (title, description, price) => {
+        alert('title: ' + title + 'description: ' + description + 'price: ' + price)
     }
 
     return (
         <View style={styles.container}>
+            <Button title="Upload image" onPress={handleUploadImage} />
             <TextInput style={styles.input}
                 underlineColorAndroid="transparent"
                 placeholder="title"
@@ -33,10 +57,10 @@ function ItemPost({ navigation }) {
                 onChangeText={handleTitle} />
             <TextInput style={styles.input}
                 underlineColorAndroid="transparent"
-                placeholder="describe"
+                placeholder="description"
                 placeholderTextColor="#9a73ef"
                 autoCapitalize="none"
-                onChangeText={handleDescribe} />
+                onChangeText={handleDescription} />
             <TextInput style={styles.input}
                 underlineColorAndroid="transparent"
                 placeholder="price"
@@ -48,7 +72,7 @@ function ItemPost({ navigation }) {
                 <TouchableOpacity
                     style={styles.submitButton}
                     onPress={
-                        () => check(title, describe, price)
+                        () => check(title, description, price)
                     }
                 >
                     <Text style={styles.submitButtonText}> Đăng Bài </Text>
