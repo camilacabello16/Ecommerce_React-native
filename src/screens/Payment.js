@@ -10,11 +10,86 @@ import {
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
-function Payment({ navigation }) {
+const item_image_4 = require('../assets/item_image_4.png');
+
+const ProductItem = ({ image, name, priceEach }) => {
+
     const [checked, setChecked] = useState(false);
     const [quantity, setQuantity] = useState(1);
-    const [price, setPrice] = useState(2200000);
-    const Price = 2200000;
+    const [price, setPrice] = useState(priceEach);
+    const Price = priceEach;
+    return (
+        <View style={{ flexDirection: "row" }} >
+            <CheckBox
+                disabled={false}
+                value={checked}
+                onValueChange={(newValue) => setChecked(newValue)}
+            />
+            <Image source={image} style={{
+                width: 50,
+                height: 60,
+            }} />
+            <Text>
+                {name}
+            </Text>
+            <Text style={{ fontSize: 20 }}>{Price}</Text>
+            <View style={{ flexDirection: "row" }}>
+                <Button title="-" onPress={() => {
+                    if (quantity > 0) {
+                        setQuantity(quantity - 1);
+                        setPrice(Price * (quantity - 1));
+                    }
+                }} />
+                <Text>{quantity}</Text>
+                <Button title="+" onPress={() => {
+                    setQuantity(quantity + 1);
+                    setPrice(Price * (quantity + 1));
+                }} />
+            </View>
+        </View>
+    );
+};
+
+function Payment({ navigation }) {
+    const [checked, setChecked] = useState(false);
+    const [list, setList] = useState([
+        {
+            id: 0,
+            image: item_image_4,
+            name: "Điện Thoại Chính Hãng",
+            priceEach: "2152"
+        },
+        {
+            id: 1,
+            image: item_image_4,
+            name: "Điện Thoại Chính Hãng",
+            priceEach: "2153"
+        },
+        {
+            id: 2,
+            image: item_image_4,
+            name: "Điện Thoại Chính Hãng",
+            priceEach: "2154"
+        },
+        {
+            id: 3,
+            image: item_image_4,
+            name: "Điện Thoại Chính Hãng",
+            priceEach: "2155"
+        },
+        {
+            id: 4,
+            image: item_image_4,
+            name: "Điện Thoại Chính Hãng",
+            priceEach: "2156"
+        },
+        {
+            id: 5,
+            image: item_image_4,
+            name: "Điện Thoại Chính Hãng",
+            priceEach: "2157"
+        }
+    ]);
     return (
         <ScrollView style={{ flexDirection: 'column', }}>
             <View>
@@ -22,8 +97,24 @@ function Payment({ navigation }) {
                     Địa chỉ nhận hàng
                 </Text>
             </View>
-            <Text style={{ fontSize: 20, }}>LagiHitech</Text>
-            <View style={{ flexDirection: 'row', }}>
+            <View>
+                <CheckBox
+                    disabled={false}
+                    value={checked}
+                    onValueChange={(newValue) => setChecked(newValue)}
+
+                />
+                <Text>Tất cả</Text>
+            </View>
+            {list.map((product) =>
+                <ProductItem
+                    key={product.id}
+                    image={product.image}
+                    name={product.name}
+                    priceEach={product.priceEach}
+                />
+            )}
+            {/* <View style={{ flexDirection: 'row', }}>
                 <CheckBox
                     disabled={false}
                     value={checked}
@@ -51,7 +142,7 @@ function Payment({ navigation }) {
                     </View>
 
                 </View>
-            </View>
+            </View> */}
             <View>
                 <View>
                     <Text style={{ fontSize: 30, }}>Voucher của Shop</Text>

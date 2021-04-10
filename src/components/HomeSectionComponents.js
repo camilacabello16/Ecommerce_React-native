@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Image,
@@ -31,6 +31,68 @@ const ProductItem = ({ image, name, price, navigation }) => (
 );
 
 const HomeSectionComponent = ({ navigation }) => {
+  const [products, setProducts] = useState([
+    {
+      id: 1,
+      name: 'Iphone 2',
+      price: '1000000',
+      image: item_image_1
+    },
+    {
+      id: 2,
+      name: 'Iphone 3',
+      price: '1000000',
+      image: item_image_2
+    },
+    {
+      id: 3,
+      name: 'Iphone 4',
+      price: '1000000',
+      image: item_image_3
+    },
+    {
+      id: 4,
+      name: 'Iphone 5',
+      price: '1000000',
+      image: item_image_4
+    },
+    {
+      id: 5,
+      name: 'Iphone 6',
+      price: '1000000',
+      image: item_image_1
+    },
+    {
+      id: 6,
+      name: 'Iphone 7',
+      price: '1000000',
+      image: item_image_2
+    },
+    {
+      id: 7,
+      name: 'Iphone 8',
+      price: '1000000',
+      image: item_image_3
+    },
+    {
+      id: 9,
+      name: 'Iphone X',
+      price: '1000000',
+      image: item_image_4
+    },
+  ]);
+
+  const renderProduct = products.map((product, index) => {
+    return (
+      <ProductItem
+        image={product.image}
+        name={product.name}
+        price={product.price}
+        navigation={navigation}
+      />
+    );
+  })
+
   return (
     <View style={styles.sectionContainer}>
       {/*  */}
@@ -67,28 +129,9 @@ const HomeSectionComponent = ({ navigation }) => {
         </View>
       </ScrollView>
       {/*  */}
-      <ScrollView horizontal={true}>
+      <ScrollView>
         <View style={styles.listItemContainer}>
-          {[
-            { image1: item_image_1, image2: item_image_2 },
-            { image1: item_image_2, image2: item_image_3 },
-            { image1: item_image_4, image2: item_image_1 },
-            { image1: item_image_1, image2: item_image_2 },
-          ].map((e, index) => (
-            <View key={index.toString()}>
-              <ProductItem
-                name="Điện thoại Vsmart Bee (Smart Bee)"
-                image={e.image1}
-                price="699.000đ"
-                navigation={navigation}
-              />
-              <ProductItem
-                name="Điện thoại Vsmart Joy 2 Vsmart Joy 2"
-                image={e.image2}
-                price="699.000đ"
-              />
-            </View>
-          ))}
+          {renderProduct}
         </View>
       </ScrollView>
       {/*  */}
@@ -146,16 +189,31 @@ const styles = StyleSheet.create({
   },
   //
   listItemContainer: {
+    display: 'flex',
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 16,
+    justifyContent: 'space-between'
   },
   itemContainer: {
-    width: 100,
-    marginRight: 12,
+    width: '49%',
     marginTop: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
+    borderRadius: 6,
+    padding: 16,
+    paddingTop: 25
   },
   itemImage: {
-    width: 100,
+    width: '100%',
     height: 120,
+    resizeMode: 'contain'
   },
   itemName: {
     fontSize: 14,

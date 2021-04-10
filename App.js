@@ -15,7 +15,8 @@ import ShoppingCart from './src/screens/ShoppingCart';
 import ItemDetail from './src/screens/ItemDetail';
 import Payment from './src/screens/Payment';
 import PaymentMethods from './src/screens/PaymentMethods';
-
+import ShopItem from './src/screens/ShopItem';
+import ItemPost from './src/screens/ItemPost';
 
 
 const Tab = createBottomTabNavigator();
@@ -74,6 +75,8 @@ const App = () => {
         <Stack.Screen name="ItemDetail" component={ItemDetail} />
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="PaymentMethods" component={PaymentMethods} />
+        <Stack.Screen name="ShopItem" component={ShopItem} />
+        <Stack.Screen name="ItemPost" component={ItemPost} />
       </Stack.Navigator>
     </NavigationContainer>
   );
