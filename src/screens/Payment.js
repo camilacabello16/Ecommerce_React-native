@@ -20,11 +20,11 @@ const ProductItem = ({ image, name, priceEach }) => {
     const Price = priceEach;
     return (
         <View style={{ flexDirection: "row" }} >
-            <CheckBox
+            {/* <CheckBox
                 disabled={false}
                 value={checked}
                 onValueChange={(newValue) => setChecked(newValue)}
-            />
+            /> */}
             <Image source={image} style={{
                 width: 50,
                 height: 60,
@@ -97,7 +97,7 @@ function Payment({ navigation }) {
                     Địa chỉ nhận hàng
                 </Text>
             </View>
-            <View>
+            {/* <View>
                 <CheckBox
                     disabled={false}
                     value={checked}
@@ -105,7 +105,7 @@ function Payment({ navigation }) {
 
                 />
                 <Text>Tất cả</Text>
-            </View>
+            </View> */}
             {list.map((product) =>
                 <ProductItem
                     key={product.id}
@@ -174,7 +174,7 @@ function Payment({ navigation }) {
             </View>
             <View>
                 <Text>Tổng thanh toán</Text>
-                <Button title="Đặt hàng" onPress={() => navigation.navigate('ShoppingCart')} />
+                <Button title="Đặt hàng" onPress={() => navigation.navigate('OrderDetail')} />
             </View>
         </ScrollView>
     );

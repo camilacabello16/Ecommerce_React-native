@@ -19,6 +19,7 @@ import ShopItem from './src/screens/ShopItem';
 import ItemPost from './src/screens/ItemPost';
 import EditItem from './src/screens/EditItem';
 import Myitem from './src/screens/Myitem';
+import OrderDetail from './src/screens/OrderDetail';
 
 
 const Tab = createBottomTabNavigator();
@@ -81,6 +82,7 @@ const App = () => {
         <Stack.Screen name="ItemPost" component={ItemPost} />
         <Stack.Screen name="EditItem" component={EditItem} />
         <Stack.Screen name="Myitem" component={Myitem} />
+        <Stack.Screen name="OrderDetail" component={OrderDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );
