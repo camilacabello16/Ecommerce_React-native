@@ -20,10 +20,7 @@ const ProfileScreen = ({ navigation }) => {
     <View style={styles.screenContainer}>
       <StatusBar barStyle="light-content" />
       {/*  */}
-      <Header title="Cá nhân" navigation={navigation} />
-      {/*  */}
       <View style={styles.bodyContainer}>
-        <Button title="Đăng bán" onPress={() => navigation.navigate('ItemPost')} />
         <View style={styles.userContainer}>
           <View style={styles.avatarContainer}>
             <MaterialIcons name="person" size={26} color="#fff" />
@@ -36,6 +33,10 @@ const ProfileScreen = ({ navigation }) => {
         </View>
         {/*  */}
         <View style={styles.divider} />
+        <View style={styles.itemContainer}>
+          <Text style={[styles.itemText]} onPress={() => navigation.navigate('ItemPost')}>Đăng bán</Text>
+          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Myitem')} />
+        </View>
         <View style={styles.itemContainer}>
           <Text style={[styles.itemText]} onPress={() => navigation.navigate('Myitem')}>Quản lý cửa hàng</Text>
           <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Myitem')} />
@@ -83,12 +84,19 @@ const ProfileScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+
   screenContainer: {
     flex: 1,
   },
   bodyContainer: {
     flex: 1,
     backgroundColor: '#ededed',
+    position: 'relative'
+  },
+  buttonPost: {
+    position: 'absolute',
+    top: 10,
+    left: 0
   },
   //
   userContainer: {

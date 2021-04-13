@@ -18,19 +18,21 @@ const item_image_2 = require('../assets/item_image_2.png');
 const item_image_3 = require('../assets/item_image_3.png');
 const item_image_4 = require('../assets/item_image_4.png');
 
-const ProductItem = ({ image, name, price, navigation }) => (
-  <View style={styles.itemContainer} >
-    <TouchableOpacity onPress={() => navigation.navigate('ItemDetail')}>
-      <Image source={image} style={styles.itemImage} />
-      <Text style={styles.itemName} numberOfLines={2} >
-        {name}
-      </Text>
-      <Text style={styles.itemPrice}>{price}</Text>
-    </TouchableOpacity>
-  </View>
-);
+
 
 const HomeSectionComponent = ({ navigation }) => {
+  const ProductItem = ({ image, name, price, navigation }) => (
+    <View style={styles.itemContainer} >
+      <TouchableOpacity >
+        <Image source={image} style={styles.itemImage} onPress={() => navigation.navigate('ItemDetail')} />
+        <Text style={styles.itemName} numberOfLines={2} >
+          {name}
+        </Text>
+        <Text style={styles.itemPrice}>{price}</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -85,6 +87,7 @@ const HomeSectionComponent = ({ navigation }) => {
   const renderProduct = products.map((product, index) => {
     return (
       <ProductItem
+        key={index}
         image={product.image}
         name={product.name}
         price={product.price}

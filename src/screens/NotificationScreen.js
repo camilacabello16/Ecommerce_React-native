@@ -39,7 +39,7 @@ const NotificationScreen = ({ navigation }) => {
       <Header title="Thông báo" navigation={navigation} />
       <View style={styles.bodyContainer}>
         <View>
-          <View style={styles.buttonActiveContainer}>
+          {/* <View style={styles.buttonActiveContainer}>
             <View style={styles.activeMark} />
             <MaterialCommunityIcons
               name="home"
@@ -47,7 +47,7 @@ const NotificationScreen = ({ navigation }) => {
               size={22}
               style={styles.activeIcon}
             />
-          </View>
+          </View> */}
           <View style={styles.buttonInactiveContainer}>
             <MaterialCommunityIcons
               name="backup-restore"
