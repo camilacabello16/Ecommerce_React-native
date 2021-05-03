@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, StatusBar, ScrollView, TextInput, Image } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
@@ -7,17 +7,20 @@ import HomeSectionComponent from '../components/HomeSectionComponents';
 
 
 const HomeScreen = ({ navigation }) => {
+  const [numberCartProduct, setNumberCartProduct] = useState(16);
+
   return (
     <View style={styles.screenContainer}>
       {/*  */}
       <View style={styles.headerContainer}>
         <View style={styles.inputContainer}>
-          <FontAwesome name="search" size={30} color="#969696" />
+          <FontAwesome name="search" size={20} color="#969696" />
           <TextInput placeholder="Bạn cần tìm gì hôm nay?" style={styles.inputText} />
         </View>
         {/*  */}
         <View style={styles.cartContainer}>
-          <FontAwesome name="shopping-cart" size={30} color="#fff" onPress={() => navigation.navigate('ShoppingCart')} />
+          <FontAwesome name="shopping-cart" size={25} color="#fff" onPress={() => navigation.navigate('ShoppingCart')} />
+          <Text style={styles.numberCart}>{numberCartProduct}</Text>
         </View>
       </View>
       {/*  */}
@@ -37,8 +40,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flexDirection: 'row',
-    paddingTop: 6,
-    paddingBottom: 4,
+    paddingVertical: 8,
     backgroundColor: '#1e88e5',
   },
   inputContainer: {
@@ -47,9 +49,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 6,
     paddingHorizontal: 12,
-    borderRadius: 2,
+    borderRadius: 4,
   },
   inputText: {
     color: '#969696',
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sectionImage: {
-    width: 396,
+    width: '100%',
     height: 130,
     borderRadius: 4,
   },
@@ -73,6 +75,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  numberCart: {
+    position: 'absolute',
+    top: -2,
+    right: 12,
+    backgroundColor: 'red',
+    width: 22,
+    height: 22,
+    borderRadius: 100,
+    textAlign: 'center',
+    color: '#fff',
+    lineHeight: 22
+  }
 });
 
 export default HomeScreen;

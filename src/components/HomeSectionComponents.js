@@ -55,9 +55,44 @@ const HomeSectionComponent = ({ navigation }) => {
             })
             .catch(function (error) {
                 // handle error
-                alert(error.message);
+                //alert(error.message);
             })
     }, [])
+
+    const [categories, setCategories] = useState([
+        {
+            id: 1,
+            name: 'Thời trang'
+        },
+        {
+            id: 2,
+            name: 'Thời trang'
+        },
+        {
+            id: 3,
+            name: 'Thời trang'
+        },
+        {
+            id: 4,
+            name: 'Thời trang'
+        },
+        {
+            id: 5,
+            name: 'Thời trang'
+        },
+        {
+            id: 6,
+            name: 'Thời trang'
+        },
+        {
+            id: 7,
+            name: 'Thời trang'
+        },
+        {
+            id: 8,
+            name: 'Thời trang'
+        },
+    ]);
 
     // const [products, setProducts] = useState([
     //   {
@@ -147,18 +182,10 @@ const HomeSectionComponent = ({ navigation }) => {
 
     return (
         <View style={styles.sectionContainer}>
-            {/*  */}
-            <Text style={styles.sectnionTitle} >Điện thoại - Máy tính bảng</Text>
-            {/*  */}
-            {/*  */}
+            {/* <Text style={styles.sectnionTitle} >Điện thoại - Máy tính bảng</Text> */}
             <ScrollView horizontal={true}>
                 <View style={styles.filterContainer}>
-                    {[
-                        'Tất cả',
-                        'Điện thoại SmartPhone',
-                        'Máy tính bảng',
-                        'Điện thoại',
-                    ].map((e, index) => (
+                    {categories.map((e, index) => (
                         <View
                             key={index.toString()}
                             style={
@@ -174,7 +201,7 @@ const HomeSectionComponent = ({ navigation }) => {
                                 }
                                 onPress={() => navigation.navigate('Login')}
                             >
-                                {e}
+                                {e.name}
                             </Text>
                         </View>
                     ))}
