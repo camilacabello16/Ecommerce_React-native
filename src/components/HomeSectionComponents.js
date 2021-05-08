@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -32,6 +33,8 @@ const item_image_4 = require('../assets/item_image_4.png');
 //);
 
 const HomeSectionComponent = ({ navigation }) => {
+    const [userInfo, setUserInfo] = useState();
+
     const ProductItem = ({ image, name, price, navigation }) => (
         <View style={styles.itemContainer} >
             <TouchableOpacity >
@@ -49,15 +52,19 @@ const HomeSectionComponent = ({ navigation }) => {
     useEffect(() => {
         axios.get('http://10.0.2.2:44344/api/v1/Product')
             .then(function (response) {
-                // handle success
-                console.log(response);
                 setProducts(response.data)
             })
             .catch(function (error) {
                 // handle error
                 //alert(error.message);
             })
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        AsyncStorage.getItem("USER").then((value) => {
+            setUserInfo(JSON.parse(value));
+        });
+    }, []);
 
     const [categories, setCategories] = useState([
         {

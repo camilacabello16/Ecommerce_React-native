@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     StyleSheet,
     Button,
@@ -13,6 +13,8 @@ import {
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import CheckBox from '@react-native-community/checkbox';
+import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -23,91 +25,87 @@ const item_image_3 = require('../assets/item_image_3.png');
 const item_image_4 = require('../assets/item_image_4.png');
 
 const ProductItem = ({ image, name, price, navigation }) => {
+
+
     const [checked, setChecked] = useState(false);
     const [text, setText] = useState('');
     const [textPrice, setTextPrice] = useState('');
     return (
-        <View style={{ flexDirection: "row" }}>
-            <Image source={image} style={{
-                width: 80,
-                height: 80,
-            }} />
-
-            <TextInput
-                placeholder={name}
-                onChangeText={text => setText(text)}
-                defaultValue={text}
-            />
-            <TextInput
-                placeholder={price}
-                onChangeText={textPrice => setTextPrice(textPrice)}
-                defaultValue={textPrice}
-            />
-            <Button title="SỬA" onPress={() => navigation.navigate('EditItem')} />
-            <Button title="XÓA" onPress={() => navigation.navigate('Myitem')} />
+        <View style={{
+            flexDirection: "row",
+            alignItems: 'center'
+        }}
+        >
+            <View>
+                <Image
+                    source={{
+                        uri: image
+                    }}
+                    style={{
+                        width: 80,
+                        height: 80,
+                    }}
+                />
+            </View>
+            <View style={{
+                flexDirection: 'column',
+                width: '60%',
+                marginLeft: 5,
+            }}
+            >
+                <Text>{name}</Text>
+                <Text style={{ marginTop: 10 }}>{price}</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+                <Button style={{ marginBottom: 10 }} title="SỬA" onPress={() => navigation.navigate('EditItem')} />
+                <Button style={{ marginTop: 10 }} title="XÓA" onPress={() => navigation.navigate('Myitem')} />
+            </View>
         </View>
 
     );
 }
 
 const Myitem = ({ navigation }) => {
-    const [products, setProducts] = useState([
-        {
-            id: 1,
-            name: 'Iphone 2',
-            price: '1000000',
-            image: item_image_1
-        },
-        {
-            id: 2,
-            name: 'Iphone 3',
-            price: '1000000',
-            image: item_image_2
-        },
-        {
-            id: 3,
-            name: 'Iphone 4',
-            price: '1000000',
-            image: item_image_3
-        },
-        {
-            id: 4,
-            name: 'Iphone 5',
-            price: '1000000',
-            image: item_image_4
-        },
-        {
-            id: 5,
-            name: 'Iphone 6',
-            price: '1000000',
-            image: item_image_1
-        },
-        {
-            id: 6,
-            name: 'Iphone 7',
-            price: '1000000',
-            image: item_image_2
-        },
-        {
-            id: 7,
-            name: 'Iphone 8',
-            price: '1000000',
-            image: item_image_3
-        },
-        {
-            id: 9,
-            name: 'Iphone X',
-            price: '1000000',
-            image: item_image_4
-        },
-    ]);
+    const [userInfo, setUserInfo] = useState();
+    const [userProduct, setUserProduct] = useState([]);
+    const defaultUserId = 'f6470938-a69b-11eb-8a1f-00163e047e89';
 
-    const renderProduct = products.map((product) => {
+    useEffect(() => {
+        AsyncStorage.getItem("USER").then((value) => {
+            setUserInfo(JSON.parse(value));
+        }, []);
+        // axios.get('http://10.0.2.2:44344/api/v1/Product/user/' + userInfo.UserId)
+        //     .then(function (response) {
+        //         setUserProduct(response.data)
+        //     })
+        //     .catch(function (error) {
+        //         // handle error
+        //         console.log(error);
+        //     })
+    }, []);
+
+    useEffect(() => {
+        console.log(defaultUserId);
+        setTimeout(() => {
+            axios.get('http://10.0.2.2:44344/api/v1/Product/user/' + defaultUserId)
+                .then(function (response) {
+                    console.log(response);
+                    setUserProduct(response.data)
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+        }, 200);
+
+    }, [])
+
+    const renderProduct = userProduct.map((product) => {
         return (
             <ProductItem
-                image={product.image}
-                name={product.name}
-                price={product.price}
+                image={product.ProductImage}
+                name={product.ProductName}
+                price={product.ProductPrice}
                 navigation={navigation}
             />
         );
@@ -134,7 +132,7 @@ export default Myitem;
 const styles = StyleSheet.create({
     sectionContainer: {
         backgroundColor: '#fff',
-        paddingHorizontal: 12,
+        paddingHorizontal: 10,
     },
     sectionTitle: {
         fontWeight: '700',
@@ -154,14 +152,12 @@ const styles = StyleSheet.create({
     },
     filterActiveButtonContainer: {
         backgroundColor: '#242424',
-        paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 4,
         marginRight: 10,
     },
     filterInactiveButtonContainer: {
         backgroundColor: '#fff',
-        paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 4,
         borderColor: '#5a5a5a',
@@ -179,7 +175,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'wrap',
-        padding: 16,
+        padding: 10,
         justifyContent: 'space-between'
     },
     itemContainer: {
@@ -194,7 +190,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
         elevation: 6,
         borderRadius: 6,
-        padding: 16,
         paddingTop: 25
     },
     itemName: {

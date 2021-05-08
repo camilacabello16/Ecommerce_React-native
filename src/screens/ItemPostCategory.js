@@ -1,61 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from 'react-navigation';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import axios from 'axios';
+
 function ItemPostCategory({ route, navigation }) {
-    const [categories, setCategories] = useState([
-        {
-            id: 1,
-            name: 'Quần áo'
-        },
-        {
-            id: 2,
-            name: 'Máy tính & Laptop'
-        },
-        {
-            id: 3,
-            name: 'Giày dép'
-        },
-        {
-            id: 4,
-            name: 'Đồng hồ'
-        },
-        {
-            id: 5,
-            name: 'Ô tô - xe máy - xe đạp'
-        },
-        {
-            id: 6,
-            name: 'Đồ chơi'
-        },
-        {
-            id: 7,
-            name: 'Thể thao'
-        },
-        {
-            id: 8,
-            name: 'Gia dụng'
-        },
-        {
-            id: 9,
-            name: 'Túi ví'
-        },
-        {
-            id: 10,
-            name: 'Sản phẩm khác'
-        },
-    ]);
+    const { setSelectedMethod } = route.params;
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://10.0.2.2:44344/api/v1/Category')
+            .then(function (response) {
+                setCategories(response.data)
+            })
+            .catch(function (error) {
+                // handle error
+                //alert(error.message);
+            })
+    }, []);
 
     const listCategory = categories.map((category, index) => {
         return (
-            <View style={styles.categoryItem} key={index}>
-                <Text
-                    style={styles.categoryTitle}
-                    onPress={() => navigation.goBack(null, {
-                        category: category.name
-                    })}
-                >{category.name}</Text>
-            </View>
+            <TouchableOpacity key={index} onPress={() => {
+                setSelectedMethod(category);
+                navigation.goBack();
+            }}>
+                <View style={styles.categoryItem}>
+                    <Text style={styles.categoryTitle}> {category.CategoryName} </Text>
+                </View>
+            </TouchableOpacity>
         );
     })
 

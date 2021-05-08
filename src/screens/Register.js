@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native';
+import { Formik } from 'formik';
+import axios from 'axios';
 
 function Register({ navigation }) {
     const [username, setUsername] = useState('');
@@ -9,81 +11,97 @@ function Register({ navigation }) {
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
 
-    const handleUsername = (text) => {
-        setUsername(text);
-    }
-
-    const handleName = (text) => {
-        setName(text);
-    }
-
-    const handleEmail = (text) => {
-        setEmail(text);
-    }
-
-    const handlePassword = (text) => {
-        setPassword(text);
-    }
-    const handlePhone = (text) => {
-        setPhone(text);
-    }
-    const login = (username, name, email, pass, phone) => {
-        alert('username: ' + username + 'name: ' + name + 'email: ' + email + ' password: ' + pass + 'phone: ' + phone)
-    }
-
     return (
-        <View style={styles.container}>
-            <TextInput style={styles.input}
-                underlineColorAndroid="transparent"
-                placeholder="Tên đăng nhập"
-                placeholderTextColor="#d2d4db"
-                autoCapitalize="none"
-                onChangeText={handleUsername} />
-
-            <TextInput style={styles.input}
-                underlineColorAndroid="transparent"
-                placeholder="Mật khẩu"
-                placeholderTextColor="#d2d4db"
-                autoCapitalize="none"
-                onChangeText={handlePassword} />
-            <TextInput style={styles.input}
-                underlineColorAndroid="transparent"
-                placeholder="Họ và tên"
-                placeholderTextColor="#d2d4db"
-                autoCapitalize="none"
-                onChangeText={handleName} />
-            <TextInput style={styles.input}
-                underlineColorAndroid="transparent"
-                placeholder="Số điện thoại"
-                placeholderTextColor="#d2d4db"
-                autoCapitalize="none"
-                onChangeText={handlePhone} />
-            <TextInput style={styles.input}
-                underlineColorAndroid="transparent"
-                placeholder="Địa chỉ"
-                placeholderTextColor="#d2d4db"
-                autoCapitalize="none"
-                onChangeText={handleEmail} />
-            <View style={styles.wrapperButton}>
-                <TouchableOpacity
-                    style={styles.submitButton}
-                    onPress={
-                        () => login(username, name, email, password, phone)
-                    }
-                >
-                    <Text style={styles.submitButtonText}> Đăng Ký </Text>
-                </TouchableOpacity>
-                <View style={styles.signUpAlert}>
-                    <Text style={{ fontSize: 16 }}>Bạn chưa có tài khoản? </Text>
-                    <Text
-                        style={styles.signUpTxt}
-                        onPress={() => navigation.navigate('Login')}
-                    >Đăng nhập</Text>
-                </View>
-                {/* <Text>Bạn đã có tài khoản?</Text>
+        <Formik
+            initialValues={{
+                UserName: '',
+                Password: '',
+                Fullname: '',
+                PhoneNumber: '',
+                Address: ''
+            }}
+            onSubmit={values => axios.post('http://10.0.2.2:44344/api/v1/User', values)
+                .then((response) => {
+                    console.log(response);
+                }, (error) => {
+                    console.log(error);
+                })
+            }
+        >
+            {({ handleChange, handleBlur, handleSubmit, values }) => (
+                <View style={styles.container}>
+                    <TextInput
+                        style={styles.input}
+                        name="UserName"
+                        underlineColorAndroid="transparent"
+                        placeholder="Tên đăng nhập"
+                        placeholderTextColor="#d2d4db"
+                        autoCapitalize="none"
+                        onChangeText={handleChange('UserName')}
+                        value={values.UserName}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        name="Password"
+                        underlineColorAndroid="transparent"
+                        placeholder="Mật khẩu"
+                        placeholderTextColor="#d2d4db"
+                        autoCapitalize="none"
+                        onChangeText={handleChange('Password')}
+                        value={values.Password}
+                        secureTextEntry={true}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        name="Fullname"
+                        underlineColorAndroid="transparent"
+                        placeholder="Họ và tên"
+                        placeholderTextColor="#d2d4db"
+                        autoCapitalize="none"
+                        onChangeText={handleChange('Fullname')}
+                        value={values.Fullname}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        name="PhoneNumber"
+                        underlineColorAndroid="transparent"
+                        placeholder="Số điện thoại"
+                        placeholderTextColor="#d2d4db"
+                        autoCapitalize="none"
+                        onChangeText={handleChange('PhoneNumber')}
+                        value={values.PhoneNumber}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        name="Address"
+                        underlineColorAndroid="transparent"
+                        placeholder="Địa chỉ"
+                        placeholderTextColor="#d2d4db"
+                        autoCapitalize="none"
+                        onChangeText={handleChange('Address')}
+                        value={values.Address}
+                    />
+                    <View style={styles.wrapperButton}>
+                        <TouchableOpacity
+                            style={styles.submitButton}
+                            onPress={handleSubmit}
+                        >
+                            <Text style={styles.submitButtonText}> Đăng Ký </Text>
+                        </TouchableOpacity>
+                        <View style={styles.signUpAlert}>
+                            <Text style={{ fontSize: 16 }}>Bạn chưa có tài khoản? </Text>
+                            <Text
+                                style={styles.signUpTxt}
+                                onPress={() => navigation.navigate('Login')}
+                            >Đăng nhập</Text>
+                        </View>
+                        {/* <Text>Bạn đã có tài khoản?</Text>
                 <Button title="Đăng nhập" style={styles.buttonRegister} onPress={() => navigation.navigate('Login')} /> */}
-            </View>
-        </View>
+                    </View>
+                </View>
+            )}
+        </Formik>
+
     )
 }
 export default Register;
