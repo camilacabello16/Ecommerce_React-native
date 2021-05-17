@@ -17,44 +17,6 @@ const default_avatar = require('../assets/default-avatar.jpg');
 
 
 function ItemDetail({ route, navigation }) {
-    const [list, setList] = useState([
-        {
-            id: 0,
-            image: item_image_4,
-            name: "Điện Thoại Chính Hãng",
-            comment: "2152"
-        },
-        {
-            id: 1,
-            image: item_image_4,
-            name: "Điện Thoại Chính Hãng",
-            comment: "2153"
-        },
-        {
-            id: 2,
-            image: item_image_4,
-            name: "Điện Thoại Chính Hãng",
-            comment: "2154"
-        },
-        {
-            id: 3,
-            image: item_image_4,
-            name: "Điện Thoại Chính Hãng",
-            comment: "2155"
-        },
-        {
-            id: 4,
-            image: item_image_4,
-            name: "Điện Thoại Chính Hãng",
-            comment: "2156"
-        },
-        {
-            id: 5,
-            image: item_image_4,
-            name: "Điện Thoại Chính Hãng",
-            comment: "2157"
-        }
-    ]);
 
     const [comments, setComments] = useState([
         {
@@ -104,31 +66,26 @@ function ItemDetail({ route, navigation }) {
         <View style={{ height: '100%' }}>
             <ScrollView style={styles.container}>
                 <View style={styles.wrapImage}>
-                    <Image source={product.image} style={styles.productImage} />
+                    <Image
+                        source={{
+                            uri: product.ProductImage
+                        }}
+                        style={styles.productImage}
+                    />
                 </View>
                 <View style={styles.productInfo}>
                     <View>
-                        <Text style={{ fontSize: 20 }}>{product.name}</Text>
+                        <Text style={{ fontSize: 20 }}>{product.ProductName}</Text>
                         <Text style={{
                             fontSize: 25,
                             color: "#ff4343",
                             marginVertical: 5
                         }}
-                        >{product.price}đ</Text>
+                        >{product.ProductPrice}đ</Text>
                     </View>
                     <View>
                         <Text style={{ fontSize: 15, }} >
-                            Màn hình: IPS LCD, 6.5", HD+
-                            Hệ điều hành: Android 10
-                            Camera sau: Chính 13 MP & Phụ 2 MP
-                            Camera trước: 5 MP
-                            CPU: MediaTek Helio G35 8 nhân
-                            RAM: 2 GB
-                            Bộ nhớ trong: 32 GB
-                            Thẻ nhớ: MicroSD, hỗ trợ tối đa 256 GB
-                            Thẻ SIM:
-                            2 Nano SIM, Hỗ trợ 4G
-                            Dung lượng pin: 5000 mAh
+                            {product.ProductDescription}
                         </Text>
                     </View>
                 </View>

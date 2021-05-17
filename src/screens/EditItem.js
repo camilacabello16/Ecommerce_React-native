@@ -90,7 +90,7 @@ function ItemDetail({ navigation }) {
                     <FontAwesome name="comments" size={50} color="#969696" />
                     <FontAwesome name="shopping-cart" size={50} color="#969696" onPress={() => navigation.navigate('ShoppingCart')} />
                 </View> */}
-                <Button title="LUƯ" onPress={() => navigation.navigate('ShopItem')} />
+                <Button title="LƯU" onPress={() => navigation.navigate('ShopItem')} />
             </View>
         </ScrollView >
     );

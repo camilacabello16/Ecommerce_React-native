@@ -10,12 +10,15 @@ import {
     TouchableOpacity
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import axios from 'axios';
+
 const item_image_4 = require('../assets/item_image_4.png');
 
 const ProductItem = ({ image, name, priceEach, isChecked, handleQuantityIncrease, handleQuantityDecrease }) => {
     const [checked, setChecked] = useState(isChecked);
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(0);
+
 
     return (
         <View style={styles.wrapCartItem}>
@@ -106,6 +109,72 @@ function ShoppingCart({ navigation }) {
             isChecked: true
         }
     ]);
+    const [cartList, setCartList] = useState([]);
+    const defaultUserId = '311f7484-abae-11eb-8a1f-00163e047e89';
+    const [cartProductList, setCartProductList] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://10.0.2.2:44344/api/v1/Cart/' + defaultUserId)
+            .then(resp => {
+                setCartList(resp.data);
+            });
+        let cloneCart = [...cartProductList];
+        for (let i = 0; i < cartList.length; i++) {
+            axios.get('http://10.0.2.2:44344/api/v1/Product/' + cartList[i].ProductId)
+                .then(resp => {
+                    cloneCart.push(resp.data);
+                });
+        }
+        setCartProductList(cloneCart);
+    });
+
+    const renderCart = cartProductList.map((item, index) => {
+        return (
+            <View style={styles.wrapCartItem} key={index}>
+                <CheckBox
+                    disabled={false}
+                    value={checked}
+                    onValueChange={(newValue) => setChecked(newValue)}
+                />
+                <Image style={styles.cartItemImg} source={{
+                    uri: item.ProductImage
+                }} />
+                <View style={styles.cartItemDetail}>
+                    <Text style={styles.cartDetailName}>
+                        {item.ProductName}
+                    </Text>
+                    <Text style={{ fontSize: 20 }}>Giá: {item.ProductPrice}</Text>
+                    <View style={styles.wrapBtnIncrease} style={{ flexDirection: "row" }}>
+                        <Button
+                            style={styles.buttonPlus}
+                            title="-"
+                            color="#00c8c8"
+                        // onPress={() => {
+                        //     if (quantity > 0) {
+                        //         setQuantity(quantity - 1);
+                        //         setPrice(priceEach * (quantity - 1));
+                        //         if (checked)
+                        //             handleQuantityDecrease(priceEach);
+                        //     }
+                        // }} 
+                        />
+                        <Text style={styles.quantityTotal}>{quantity}</Text>
+                        <Button
+                            style={styles.buttonPlus}
+                            title="+"
+                            color="#00c8c8"
+                        // onPress={() => {
+                        //     setQuantity(quantity + 1);
+                        //     setPrice(priceEach * (quantity + 1));
+                        //     if (checked)
+                        //         handleQuantityIncrease(priceEach);
+                        // }} 
+                        />
+                    </View>
+                </View>
+            </View>
+        );
+    })
 
     const handleQuantityIncrease = (amountChanged) => {
         setTotal(total + parseInt(amountChanged, 10));
@@ -120,17 +189,7 @@ function ShoppingCart({ navigation }) {
     return (
         <View style={styles.pageContainer}>
             <ScrollView style={styles.productScroll}>
-                {list.map((product) =>
-                    <ProductItem
-                        key={product.id}
-                        image={product.image}
-                        name={product.name}
-                        priceEach={product.priceEach}
-                        isChecked={product.isChecked}
-                        handleQuantityDecrease={handleQuantityDecrease}
-                        handleQuantityIncrease={handleQuantityIncrease}
-                    />
-                )}
+                {renderCart}
             </ScrollView>
             <View style={styles.pageFooter}>
                 <Button

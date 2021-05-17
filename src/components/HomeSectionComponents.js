@@ -7,6 +7,7 @@ import {
     Dimensions,
     ScrollView,
     TouchableOpacity,
+    TextInput,
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import axios from 'axios';
@@ -34,6 +35,8 @@ const item_image_4 = require('../assets/item_image_4.png');
 
 const HomeSectionComponent = ({ navigation }) => {
     const [userInfo, setUserInfo] = useState();
+    const [categoryActive, setCategoryActive] = useState();
+    const [isSelectAll, setIsSelectAll] = useState(1);
 
     const ProductItem = ({ image, name, price, navigation }) => (
         <View style={styles.itemContainer} >
@@ -66,111 +69,21 @@ const HomeSectionComponent = ({ navigation }) => {
         });
     }, []);
 
-    const [categories, setCategories] = useState([
-        {
-            id: 1,
-            name: 'Thời trang'
-        },
-        {
-            id: 2,
-            name: 'Thời trang'
-        },
-        {
-            id: 3,
-            name: 'Thời trang'
-        },
-        {
-            id: 4,
-            name: 'Thời trang'
-        },
-        {
-            id: 5,
-            name: 'Thời trang'
-        },
-        {
-            id: 6,
-            name: 'Thời trang'
-        },
-        {
-            id: 7,
-            name: 'Thời trang'
-        },
-        {
-            id: 8,
-            name: 'Thời trang'
-        },
-    ]);
+    const [categories, setCategories] = useState([]);
 
-    // const [products, setProducts] = useState([
-    //   {
-    //     id: 1,
-    //     name: 'Iphone 2',
-    //     price: '1000000',
-    //     image: item_image_1
-    //   },
-    //   {
-    //     id: 2,
-    //     name: 'Iphone 3',
-    //     price: '1000000',
-    //     image: item_image_2
-    //   },
-    //   {
-    //     id: 3,
-    //     name: 'Iphone 4',
-    //     price: '1000000',
-    //     image: item_image_3
-    //   },
-    //   {
-    //     id: 4,
-    //     name: 'Iphone 5',
-    //     price: '1000000',
-    //     image: item_image_4
-    //   },
-    //   {
-    //     id: 5,
-    //     name: 'Iphone 6',
-    //     price: '1000000',
-    //     image: item_image_1
-    //   },
-    //   {
-    //     id: 6,
-    //     name: 'Iphone 7',
-    //     price: '1000000',
-    //     image: item_image_2
-    //   },
-    //   {
-    //     id: 7,
-    //     name: 'Iphone 8',
-    //     price: '1000000',
-    //     image: item_image_3
-    //   },
-    //   {
-    //     id: 9,
-    //     name: 'Iphone X',
-    //     price: '1000000',
-    //     image: item_image_4
-    //   },
-    // ]);
+    useEffect(() => {
+        axios.get('http://10.0.2.2:44344/api/v1/Category')
+            .then(function (response) {
+                setCategories(response.data)
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error.message);
+            })
+    }, []);
 
     const renderProduct = products.map((product, index) => {
         return (
-            // <ProductItem
-            //   image={product.image}
-            //   name={product.name}
-            //   price={product.price}
-            //   navigation={navigation}
-            // />
-            // <View style={styles.itemContainer} key={index} >
-            //     <TouchableOpacity onPress={() => navigation.navigate('ItemDetail', {
-            //         product: product
-            //     })}>
-            //         <Image source={product.image} style={styles.itemImage} />
-            //         <Text style={styles.itemName} numberOfLines={2} >
-            //             {product.name}
-            //         </Text>
-            //         <Text style={styles.itemPrice}>{product.price}</Text>
-            //     </TouchableOpacity>
-            // </View>
             <View style={styles.itemContainer} key={index} >
                 <TouchableOpacity onPress={() => navigation.navigate('ItemDetail', {
                     product: product
@@ -185,32 +98,61 @@ const HomeSectionComponent = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
         );
-    })
+    });
+
+    const handleChooseCategory = (categoryId) => {
+        setCategoryActive(categoryId - 1);
+        setIsSelectAll(0);
+        axios.get('http://10.0.2.2:44344/api/v1/Product/category/' + categoryId)
+            .then(function (response) {
+                setProducts(response.data);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error.message);
+            })
+    }
+
+    function handleSelectAll() {
+        setIsSelectAll(1);
+        setCategoryActive(-1);
+        axios.get('http://10.0.2.2:44344/api/v1/Product')
+            .then(function (response) {
+                setProducts(response.data);
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error.message);
+            })
+    }
 
     return (
         <View style={styles.sectionContainer}>
             {/* <Text style={styles.sectnionTitle} >Điện thoại - Máy tính bảng</Text> */}
             <ScrollView horizontal={true}>
                 <View style={styles.filterContainer}>
-                    {categories.map((e, index) => (
-                        <View
-                            key={index.toString()}
-                            style={
-                                index === 0
-                                    ? styles.filterActiveButtonContainer
-                                    : styles.filterInactiveButtonContainer
-                            }>
-                            <Text
-                                style={
-                                    index === 0
-                                        ? styles.filterActiveText
-                                        : styles.filterInactiveText
-                                }
-                                onPress={() => navigation.navigate('Login')}
-                            >
-                                {e.name}
+                    <TouchableOpacity
+                        style={isSelectAll === 1 ? styles.filterActiveButtonContainer : styles.filterInactiveButtonContainer}
+                        onPress={handleSelectAll}
+                    >
+                        <Text
+                            style={isSelectAll === 1 ? styles.filterActiveText : styles.filterInactiveText}
+                        >
+                            Tất cả
                             </Text>
-                        </View>
+                    </TouchableOpacity>
+                    {categories.map((e, index) => (
+                        <TouchableOpacity
+                            key={index.toString()}
+                            style={index === categoryActive ? styles.filterActiveButtonContainer : styles.filterInactiveButtonContainer}
+                            onPress={() => handleChooseCategory(e.CategoryId)}
+                        >
+                            <Text
+                                style={index === categoryActive ? styles.filterActiveText : styles.filterInactiveText}
+                            >
+                                {e.CategoryName}
+                            </Text>
+                        </TouchableOpacity>
                     ))}
                 </View>
             </ScrollView>
@@ -252,18 +194,19 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     filterActiveButtonContainer: {
-        backgroundColor: '#242424',
+        backgroundColor: '#00C8C8',
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 4,
         marginRight: 10,
+        color: '#fff'
     },
     filterInactiveButtonContainer: {
         backgroundColor: '#fff',
         paddingHorizontal: 12,
         paddingVertical: 6,
         borderRadius: 4,
-        borderColor: '#5a5a5a',
+        borderColor: '#00C8C8',
         borderWidth: 1,
         marginRight: 10,
     },
