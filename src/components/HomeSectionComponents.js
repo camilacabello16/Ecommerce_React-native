@@ -33,10 +33,24 @@ const item_image_4 = require('../assets/item_image_4.png');
 // </View>
 //);
 
-const HomeSectionComponent = ({ navigation }) => {
+const HomeSectionComponent = ({ navigation }, props) => {
     const [userInfo, setUserInfo] = useState();
     const [categoryActive, setCategoryActive] = useState();
     const [isSelectAll, setIsSelectAll] = useState(1);
+
+    useEffect(() => {
+        // if (props.searchText !== "" || props.searchText) {
+        //     axios.get('http://10.0.2.2:44344/api/v1/Product/search/' + props.searchText)
+        //         .then(function (response) {
+        //             setProducts(response.data)
+        //         })
+        //         .catch(function (error) {
+        //             // handle error
+        //             //alert(error.message);
+        //         })
+        // }
+        console.log(props);
+    })
 
     const ProductItem = ({ image, name, price, navigation }) => (
         <View style={styles.itemContainer} >
@@ -128,7 +142,6 @@ const HomeSectionComponent = ({ navigation }) => {
 
     return (
         <View style={styles.sectionContainer}>
-            {/* <Text style={styles.sectnionTitle} >Điện thoại - Máy tính bảng</Text> */}
             <ScrollView horizontal={true}>
                 <View style={styles.filterContainer}>
                     <TouchableOpacity

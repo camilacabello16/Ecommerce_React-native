@@ -119,7 +119,14 @@ function ItemDetail({ route, navigation }) {
                     </View>
                 </View>
                 <View style={styles.buttonBuy}>
-                    <Button style={styles.button} title="ĐẶT HÀNG" color="#00C8C8" onPress={() => navigation.navigate('Payment')} />
+                    <Button
+                        style={styles.button}
+                        title="ĐẶT HÀNG"
+                        color="#00C8C8"
+                        onPress={() => navigation.navigate('Payment', {
+                            product: product
+                        })}
+                    />
                 </View>
             </View>
         </View >

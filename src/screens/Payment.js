@@ -8,10 +8,11 @@ import {
     Text,
     ScrollView,
 } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const item_image_4 = require('../assets/item_image_4.png');
 
-function Payment({ navigation }) {
+function Payment({ navigation, route }) {
     const [checked, setChecked] = useState(false);
     const [list, setList] = useState([
         {
@@ -58,6 +59,24 @@ function Payment({ navigation }) {
         }
     ]);
 
+    const [productPayment, setProductPayment] = useState();
+
+    const { product } = route.params;
+
+    const [numberProduct, setNumberProduct] = useState(1);
+
+    const [paymentPrice, setPaymentPrice] = useState(30000);
+
+    function handleIncreaseProduct() {
+        setNumberProduct(numberProduct + 1);
+    }
+
+    function handleDecreaseProduct() {
+        if (numberProduct > 1) {
+            setNumberProduct(numberProduct - 1);
+        }
+    }
+
     const listItem = list.map((item, index) => {
         return (
             <View key={index} style={styles.wrapListItem}>
@@ -67,14 +86,50 @@ function Payment({ navigation }) {
                 <View style={styles.wrapListItemText}>
                     <Text style={styles.wrapListItemName}>{item.name}</Text >
                     <Text style={styles.wrapListItemDescription}>{item.description}</Text>
-                    <Text style={styles.wrapListItemPrice}>{item.priceEach}đ</Text>
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        width: '65%',
+                        justifyContent: 'space-between'
+                    }}>
+                        <Text style={styles.wrapListItemPrice}>{item.priceEach}đ</Text>
+                        <View style={{
+                            flexDirection: 'row',
+                            marginLeft: 10
+                        }}>
+                            <View style={{
+                                marginRight: 5,
+                                borderWidth: 1,
+                                borderColor: '#000',
+                                padding: 4
+                            }}
+                            >
+                                <FontAwesome
+                                    name="plus"
+                                    size={15}
+                                    color="#000"
+                                />
+                            </View>
+                            <View style={{
+                                borderWidth: 1,
+                                borderColor: '#000',
+                                padding: 4
+                            }}>
+                                <FontAwesome
+                                    name="minus"
+                                    size={15}
+                                    color="#000"
+                                />
+                            </View>
+                        </View>
+                    </View>
                 </View>
             </View>
         );
     });
 
     return (
-        <ScrollView style={{ height: '100%', position: 'relative' }}>
+        <ScrollView style={{ height: '100%', flex: 1, position: 'relative' }}>
             <View style={{ height: '100%', position: 'relative' }}>
                 <View style={styles.address}>
                     <Text style={{ fontSize: 18, marginBottom: 5 }}>
@@ -86,7 +141,68 @@ function Payment({ navigation }) {
                     </View>
                 </View>
                 <View>
-                    {listItem}
+                    {/* {listItem} */}
+                    <View style={styles.wrapListItem}>
+                        <View style={styles.wrapListImage}>
+                            <Image
+                                style={styles.itemImage}
+                                source={{
+                                    uri: product.ProductImage
+                                }}
+                            ></Image>
+                        </View>
+                        <View style={styles.wrapListItemText}>
+                            <Text style={styles.wrapListItemName}>{product.ProductName}</Text >
+                            <Text style={styles.wrapListItemDescription}>{product.ProductDescription}</Text>
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                width: '65%',
+                                justifyContent: 'space-between'
+                            }}>
+                                <Text style={styles.wrapListItemPrice}>{product.ProductPrice}đ</Text>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    marginLeft: 10
+                                }}>
+                                    <View
+                                        style={{
+                                            marginRight: 5,
+                                            borderWidth: 1,
+                                            borderColor: '#000',
+                                            padding: 4
+                                        }}
+
+                                    >
+                                        <FontAwesome
+                                            name="plus"
+                                            size={15}
+                                            color="#000"
+                                            onPress={handleIncreaseProduct}
+                                        />
+                                    </View>
+                                    <Text style={{
+                                        fontSize: 16,
+                                        marginRight: 5
+                                    }}>{numberProduct}</Text>
+                                    <View
+                                        style={{
+                                            borderWidth: 1,
+                                            borderColor: '#000',
+                                            padding: 4
+                                        }}
+                                    >
+                                        <FontAwesome
+                                            name="minus"
+                                            size={15}
+                                            color="#000"
+                                            onPress={handleDecreaseProduct}
+                                        />
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
                 </View>
                 <View style={styles.wrapSelectTransport} >
                     <View style={styles.selectTransportTitle}>
@@ -121,15 +237,15 @@ function Payment({ navigation }) {
                     </View>
                     <View style={styles.totalPay}>
                         <Text>Tổng tiền hàng</Text>
-                        <Text>20000đ</Text>
+                        <Text>{product.ProductPrice * numberProduct}đ</Text>
                     </View>
                     <View style={styles.totalPay}>
                         <Text>Tổng tiền phí vận chuyển</Text>
-                        <Text>20000đ</Text>
+                        <Text>{paymentPrice}đ</Text>
                     </View>
                     <View style={styles.totalPay}>
                         <Text style={styles.totalPayTxt}>Tổng thanh toán</Text>
-                        <Text style={styles.totalPayPrice}>40000đ</Text>
+                        <Text style={styles.totalPayPrice}>{product.ProductPrice * numberProduct + paymentPrice}đ</Text>
                     </View>
                 </View>
                 <View style={styles.wrapTotal}>
@@ -137,13 +253,17 @@ function Payment({ navigation }) {
                         <Button
                             style={styles.btnOrder}
                             title="Đặt hàng"
-                            onPress={() => navigation.navigate('OrderDetail')}
+                            onPress={() => navigation.navigate('OrderDetail', {
+                                numberProduct: numberProduct,
+                                product: product,
+                                paymentPrice: paymentPrice
+                            })}
                             color="#00c8c8"
                         />
                     </View>
                     <View style={styles.totalPrice}>
                         <Text style={styles.totalPriceTitle}>Tổng thanh toán</Text>
-                        <Text style={styles.totalPriceMoney}>222222đ</Text>
+                        <Text style={styles.totalPriceMoney}>{product.ProductPrice * numberProduct + paymentPrice}đ</Text>
                     </View>
                 </View>
             </View>
@@ -154,7 +274,6 @@ export default Payment;
 const styles = StyleSheet.create({
     totalPrice: {
         display: 'flex',
-        alignItems: 'stretch'
     },
     wpBtnOrder: {
         width: '40%',

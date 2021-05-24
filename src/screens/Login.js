@@ -2,8 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { createStackNavigator } from 'react-navigation';
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, Button } from 'react-native';
 import { Formik } from 'formik';
+import * as yup from 'yup'
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+
+const loginValidationSchema = yup.object().shape({
+    UserName: yup
+        .string()
+        .required('Tên đăng nhập không được bỏ trống'),
+    Password: yup
+        .string()
+        .min(8, ({ min }) => `Mật khẩu phải nhiều hơn ${min} kí tự`)
+        .required('Mật khẩu không được bỏ trống'),
+})
 
 function Login({ navigation }) {
     const [username, setUsername] = useState('');
@@ -21,6 +32,8 @@ function Login({ navigation }) {
 
     return (
         <Formik
+            validateOnMount={true}
+            validationSchema={loginValidationSchema}
             initialValues={{
                 UserName: '',
                 Password: ''
@@ -42,7 +55,12 @@ function Login({ navigation }) {
                     console.log(error);
                 })}
         >
-            {({ handleChange, handleBlur, handleSubmit, values }) => (
+            {({ handleChange,
+                handleBlur,
+                handleSubmit,
+                values,
+                errors,
+                touched, }) => (
                 <View style={styles.container}>
                     <TextInput
                         style={styles.input}
@@ -51,8 +69,12 @@ function Login({ navigation }) {
                         placeholderTextColor="#d2d4db"
                         autoCapitalize="none"
                         onChangeText={handleChange('UserName')}
-                        value={values.UserName}
+                        onBlur={handleBlur('UserName')}
+                        value={values.username}
                     />
+                    {(errors.UserName && touched.UserName) &&
+                        <Text style={styles.errorText}>{errors.UserName}</Text>
+                    }
                     <TextInput
                         style={styles.input}
                         underlineColorAndroid="transparent"
@@ -60,9 +82,13 @@ function Login({ navigation }) {
                         placeholderTextColor="#d2d4db"
                         autoCapitalize="none"
                         onChangeText={handleChange('Password')}
+                        onBlur={handleBlur('Password')}
                         secureTextEntry={true}
-                        value={values.Password}
+                        value={values.password}
                     />
+                    {(errors.Password && touched.Password) &&
+                        <Text style={styles.errorText}>{errors.Password}</Text>
+                    }
                     <View style={styles.wrapperButton}>
                         <TouchableOpacity
                             style={styles.submitButton}
@@ -129,5 +155,9 @@ const styles = StyleSheet.create({
     signUpTxt: {
         color: '#00C8C8',
         fontSize: 16
-    }
+    },
+    errorText: {
+        fontSize: 15,
+        color: 'red',
+    },
 })

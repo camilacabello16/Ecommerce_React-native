@@ -10,6 +10,7 @@ const HomeScreen = ({ navigation }) => {
     const defaultUserId = '311f7484-abae-11eb-8a1f-00163e047e89';
     const [cartList, setCartList] = useState([]);
     const [cartLength, setCartLength] = useState();
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         axios.get('http://10.0.2.2:44344/api/v1/Cart/' + defaultUserId)
@@ -23,8 +24,14 @@ const HomeScreen = ({ navigation }) => {
             {/*  */}
             <View style={styles.headerContainer}>
                 <View style={styles.inputContainer}>
-                    <FontAwesome name="search" size={20} color="#969696" />
-                    <TextInput placeholder="Bạn cần tìm gì hôm nay?" style={styles.inputText} />
+                    <TextInput
+                        placeholder="Bạn cần tìm gì hôm nay?"
+                        style={styles.inputText}
+                        onChangeText={value => setSearchText(value)}
+                    />
+                    <View>
+                        <FontAwesome name="search" size={20} color="#969696" />
+                    </View>
                 </View>
                 {/*  */}
                 <View style={styles.cartContainer}>
@@ -36,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
             <View style={styles.bodyContainer}>
                 <ScrollView>
                     <Image source={require('../assets/section_banner.png')} style={styles.sectionImage} />
-                    <HomeSectionComponent navigation={navigation} />
+                    <HomeSectionComponent navigation={navigation} searchText={searchText} />
                 </ScrollView>
             </View>
         </View>
@@ -61,6 +68,7 @@ const styles = StyleSheet.create({
         paddingVertical: 6,
         paddingHorizontal: 12,
         borderRadius: 4,
+        justifyContent: 'space-between'
     },
     inputText: {
         color: '#969696',
