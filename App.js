@@ -25,7 +25,6 @@ import OrderDetail from './src/screens/OrderDetail';
 import TransportMethod from './src/screens/TransportMethod';
 import ItemPostCategory from './src/screens/ItemPostCategory';
 
-
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
