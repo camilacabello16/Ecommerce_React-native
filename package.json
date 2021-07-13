@@ -17,6 +17,7 @@
     "@react-navigation/bottom-tabs": "^5.2.8",
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
+    "antd-mobile": "^2.3.4",
     "axios": "^0.21.1",
     "axios-hooks": "^2.6.1",
     "formik": "^2.2.6",

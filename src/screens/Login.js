@@ -5,35 +5,28 @@ import { Formik } from 'formik';
 import * as yup from 'yup'
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const loginValidationSchema = yup.object().shape({
-    UserName: yup
-        .string()
-        .required('Tên đăng nhập không được bỏ trống'),
-    Password: yup
-        .string()
-        .min(8, ({ min }) => `Mật khẩu phải nhiều hơn ${min} kí tự`)
-        .required('Mật khẩu không được bỏ trống'),
-})
+import { useDispatch } from 'react-redux';
+import * as userAction from '../redux/store/action/user';
 
 function Login({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState({});
 
-    const saveUser = async (data) => {
-        try {
-            await AsyncStorage.setItem("USER", JSON.stringify(data))
-            alert('Data successfully saved')
-        } catch (e) {
-            alert('Failed to save the data to the storage')
-        }
-    }
+    const dispatch = useDispatch();
+
+    // const saveUser = async (data) => {
+    //     try {
+    //         await AsyncStorage.setItem("USER", JSON.stringify(data))
+    //         alert('Data successfully saved')
+    //     } catch (e) {
+    //         alert('Failed to save the data to the storage')
+    //     }
+    // }
 
     return (
         <Formik
             validateOnMount={true}
-            validationSchema={loginValidationSchema}
             initialValues={{
                 UserName: '',
                 Password: ''
@@ -43,13 +36,15 @@ function Login({ navigation }) {
                     if (response.data == "") {
                         console.log('null');
                     } else {
-                        setUser(response.data[0]);
-                        saveUser(response.data[0]);
+                        // setUser(response.data[0]);
+                        // saveUser(response.data[0]);
+                        console.log(response.data[0]);
+                        dispatch(userAction.signInUser(response.data[0]));
+                        navigation.navigate('Home');
                     }
-                    console.log(user.UserName);
-                    AsyncStorage.getItem('USER').then(value => {
-                        console.log(value);
-                    })
+                    // AsyncStorage.getItem('USER').then(value => {
+                    //     console.log(value);
+                    // })
                     // console.log(AsyncStorage.getItem('USER'));
                 }, (error) => {
                     console.log(error);
@@ -69,12 +64,8 @@ function Login({ navigation }) {
                         placeholderTextColor="#d2d4db"
                         autoCapitalize="none"
                         onChangeText={handleChange('UserName')}
-                        onBlur={handleBlur('UserName')}
                         value={values.username}
                     />
-                    {(errors.UserName && touched.UserName) &&
-                        <Text style={styles.errorText}>{errors.UserName}</Text>
-                    }
                     <TextInput
                         style={styles.input}
                         underlineColorAndroid="transparent"
@@ -82,13 +73,9 @@ function Login({ navigation }) {
                         placeholderTextColor="#d2d4db"
                         autoCapitalize="none"
                         onChangeText={handleChange('Password')}
-                        onBlur={handleBlur('Password')}
                         secureTextEntry={true}
                         value={values.password}
                     />
-                    {(errors.Password && touched.Password) &&
-                        <Text style={styles.errorText}>{errors.Password}</Text>
-                    }
                     <View style={styles.wrapperButton}>
                         <TouchableOpacity
                             style={styles.submitButton}

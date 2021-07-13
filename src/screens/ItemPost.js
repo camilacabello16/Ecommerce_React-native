@@ -8,6 +8,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { Formik } from 'formik';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 // const ItemPostValidationSchema = yup.object().shape({
 //     title: yup
@@ -42,11 +43,17 @@ function ItemPost({ route, navigation }) {
     const [productWeight, setProductWeight] = useState();
     const [category, setCategory] = useState();
 
-    useEffect(() => {
-        AsyncStorage.getItem("USER").then((value) => {
-            setUserInfo(JSON.parse(value));
-        });
-    }, []);
+    const userInfoSignin = useSelector((state) => {
+        console.log(state.user);
+        return state.user;
+    })
+
+    // useEffect(() => {
+    //     // AsyncStorage.getItem("USER").then((value) => {
+    //     //     setUserInfo(JSON.parse(value));
+    //     // });
+    //     console.log(userInfoSignin);
+    // }, []);
 
     useEffect(() => {
         if (!selectedMethod) {
@@ -75,6 +82,7 @@ function ItemPost({ route, navigation }) {
 
     return (
         <View style={styles.container}>
+            <Text>{userInfoSignin[0].UserName}</Text>
             <ScrollView style={{ marginBottom: 50 }}>
                 <Button title="Upload image" onPress={() =>
                     ImagePicker.launchImageLibrary(

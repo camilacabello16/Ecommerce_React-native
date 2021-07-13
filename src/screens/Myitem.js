@@ -15,60 +15,15 @@ import { createStackNavigator } from 'react-navigation';
 import CheckBox from '@react-native-community/checkbox';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useForceUpdate } from '../hooks/useForceUpdate';
 
 const { width } = Dimensions.get('window');
-
-const section_banner = require('../assets/section_banner.png');
-const item_image_1 = require('../assets/item_image_1.png');
-const item_image_2 = require('../assets/item_image_2.png');
-const item_image_3 = require('../assets/item_image_3.png');
-const item_image_4 = require('../assets/item_image_4.png');
-
-const ProductItem = ({ image, name, price, navigation }) => {
-
-
-    const [checked, setChecked] = useState(false);
-    const [text, setText] = useState('');
-    const [textPrice, setTextPrice] = useState('');
-    return (
-        <View style={{
-            flexDirection: "row",
-            alignItems: 'center'
-        }}
-        >
-            <View>
-                <Image
-                    source={{
-                        uri: image
-                    }}
-                    style={{
-                        width: 80,
-                        height: 80,
-                    }}
-                />
-            </View>
-            <View style={{
-                flexDirection: 'column',
-                width: '60%',
-                marginLeft: 5,
-            }}
-            >
-                <Text>{name}</Text>
-                <Text style={{ marginTop: 10 }}>{price}</Text>
-            </View>
-            <View style={{ flex: 1 }}>
-                <Button style={{ marginBottom: 10 }} title="SỬA" onPress={() => navigation.navigate('EditItem')} />
-                <Button style={{ marginTop: 10 }} title="XÓA" onPress={() => navigation.navigate('Myitem')} />
-            </View>
-        </View>
-
-    );
-}
 
 const Myitem = ({ navigation }) => {
     const [userInfo, setUserInfo] = useState();
     const [userProduct, setUserProduct] = useState([]);
     const defaultUserId = 'f6470938-a69b-11eb-8a1f-00163e047e89';
+    const forceUpdate = useForceUpdate();
 
     useEffect(() => {
         AsyncStorage.getItem("USER").then((value) => {
@@ -100,16 +55,54 @@ const Myitem = ({ navigation }) => {
 
     }, [])
 
-    const renderProduct = userProduct.map((product) => {
+    const renderProduct = userProduct.map((product, index) => {
         return (
-            <ProductItem
-                image={product.ProductImage}
-                name={product.ProductName}
-                price={product.ProductPrice}
-                navigation={navigation}
-            />
-        );
-    })
+            <View style={{
+                flexDirection: "row",
+                alignItems: 'center'
+            }}
+                key={index}
+            >
+                <View>
+                    <Image
+                        source={{
+                            uri: product.ProductImage
+                        }}
+                        style={{
+                            width: 80,
+                            height: 80,
+                        }}
+                    />
+                </View>
+                <View style={{
+                    flexDirection: 'column',
+                    width: '60%',
+                    marginLeft: 5,
+                }}
+                >
+                    <Text>{product.ProductName}</Text>
+                    <Text style={{ marginTop: 10 }}>{product.ProductPrice}</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                    <Button
+                        style={{ marginBottom: 10 }}
+                        title="SỬA"
+                        onPress={() => navigation.navigate('EditItem', {
+                            productEdit: product
+                        })}
+                    />
+                    <Button style={{ marginTop: 10 }} title="XÓA" onPress={() => handleDeleteProduct(product.ProductId)} />
+                </View>
+            </View>
+        )
+    });
+
+    const handleDeleteProduct = (id) => {
+        console.log(id);
+        axios.delete('http://10.0.2.2:44344/api/v1/Product/' + id)
+            .then(resp => console.log(resp));
+        forceUpdate();
+    }
 
     return (
         <View style={styles.sectionContainer}>

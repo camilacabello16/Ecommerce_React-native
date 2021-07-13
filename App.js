@@ -27,7 +27,8 @@ import TransportMethod from './src/screens/TransportMethod';
 import ItemPostCategory from './src/screens/ItemPostCategory';
 
 import cartReducer from './src/redux/store/reducer/cart';
-
+import PaymentCart from './src/screens/PaymentCart';
+import OrderDetailCart from './src/screens/OrderDetailCart';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -100,10 +101,12 @@ const App = () => {
           <Stack.Screen name="OrderDetail" component={OrderDetail} options={{ title: 'Thông tin thanh toán' }} />
           <Stack.Screen name="TransportMethod" component={TransportMethod} options={{ title: 'Đơn vị vận chuyển' }} />
           <Stack.Screen name="ItemPostCategory" component={ItemPostCategory} options={{ title: 'Chọn danh mục' }} />
+          <Stack.Screen name="PaymentCart" component={PaymentCart} options={{ title: 'Thanh toán' }} />
+          <Stack.Screen name="OrderDetailCart" component={OrderDetailCart} options={{ title: 'Thông tin thanh toán' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
-    
+
   );
 };
 
