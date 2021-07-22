@@ -27,6 +27,7 @@ import TransportMethod from './src/screens/TransportMethod';
 import ItemPostCategory from './src/screens/ItemPostCategory';
 
 import cartReducer from './src/redux/store/reducer/cart';
+import userReducer from './src/redux/store/reducer/user';
 import PaymentCart from './src/screens/PaymentCart';
 import OrderDetailCart from './src/screens/OrderDetailCart';
 
@@ -34,7 +35,8 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const rootReducer = combineReducers({
-  cart: cartReducer
+  cart: cartReducer,
+  user: userReducer
 });
 
 

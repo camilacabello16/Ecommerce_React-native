@@ -1,7 +1,8 @@
 class UserInfo {
-    constructor(userName, password) {
+    constructor(userName, password, fullName) {
         this.userName = userName;
         this.password = password;
+        this.fullName = fullName;
     }
 }
 

@@ -44,8 +44,8 @@ function ItemPost({ route, navigation }) {
     const [category, setCategory] = useState();
 
     const userInfoSignin = useSelector((state) => {
-        console.log(state.user);
-        return state.user;
+        const userInfo = state.user.users[0].fullName;
+        return userInfo;
     })
 
     // useEffect(() => {
@@ -82,7 +82,7 @@ function ItemPost({ route, navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text>{userInfoSignin[0].UserName}</Text>
+            <Text>{userInfoSignin}</Text>
             <ScrollView style={{ marginBottom: 50 }}>
                 <Button title="Upload image" onPress={() =>
                     ImagePicker.launchImageLibrary(

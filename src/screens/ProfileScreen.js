@@ -4,8 +4,11 @@ import { createStackNavigator } from 'react-navigation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Header from '../components/HeaderComponent';
+
+import * as userAction from '../redux/store/action/user';
 
 const ProfileItem = ({ icon, name }) => (
   <View style={styles.itemContainer}>
@@ -16,6 +19,18 @@ const ProfileItem = ({ icon, name }) => (
 );
 
 const ProfileScreen = ({ navigation }) => {
+  const user = useSelector((state) => {
+    const listUser = [];
+    for (const key in state.user.users) {
+      listUser.push({
+        username: state.user.users[key].username,
+      })
+    }
+    return listUser;
+  });
+
+  console.log(user);
+  const dispatch = useDispatch();
   return (
     <View style={styles.screenContainer}>
       <StatusBar barStyle="light-content" />
@@ -77,7 +92,11 @@ const ProfileScreen = ({ navigation }) => {
         {/*  */}
         <View style={styles.divider} />
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Support')}>Hỗ trợ</Text>
+          <Text style={[styles.itemText]} onPress={() => {
+            dispatch(userAction.logOutUser(user));
+            navigation.navigate('Register')}}>
+            Hỗ trợ
+          </Text>
           <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Support')} />
         </View>
       </View>

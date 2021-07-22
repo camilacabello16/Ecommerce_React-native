@@ -36,9 +36,6 @@ function Login({ navigation }) {
                     if (response.data == "") {
                         console.log('null');
                     } else {
-                        // setUser(response.data[0]);
-                        // saveUser(response.data[0]);
-                        console.log(response.data[0]);
                         dispatch(userAction.signInUser(response.data[0]));
                         navigation.navigate('Home');
                     }

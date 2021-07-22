@@ -1,24 +1,37 @@
 import { SIGN_IN_USER, LOG_OUT_USER } from "../action/user";
 import UserInfo from '../../userInfo';
 
-const initialState = [];
+const initialState = {
+    users: {},
+    login: false,
+};
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case SIGN_IN_USER:
-            const userInfo = action.user;
+            const user = action.user;
+            const username = user.UserName;
+            const password = user.Password;
+            const fullName = user.Fullname;
 
-            let cloneState = [...state];
-
-            cloneState.push(userInfo);
-            state = cloneState;
-            return state;
+            let userInfoLogin = new UserInfo(
+                username,
+                password,
+                fullName,
+            )
+            return {
+                ...state,
+                users: {...state.users, [0]: userInfoLogin,},
+                login: true,
+            }
         case LOG_OUT_USER:
-            let cloneState = [...state];
-
-            cloneState.splice(-1, 1);
-            state = cloneState;
-            return state;
+            const updateUsers = [...state.users];
+             delete updateUsers[0];
+            return {
+                ...state,
+                users: updateUsers,
+                login: false,
+            };
     }
     return state;
 };
