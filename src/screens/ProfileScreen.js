@@ -1,35 +1,49 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar, Button, TouchableOpacity } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import {
+  StyleSheet,
+  View,
+  Text,
+  StatusBar,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
+import {createStackNavigator} from 'react-navigation';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Header from '../components/HeaderComponent';
 
 import * as userAction from '../redux/store/action/user';
 
-const ProfileItem = ({ icon, name }) => (
+const ProfileItem = ({icon, name}) => (
   <View style={styles.itemContainer}>
     <MaterialCommunityIcons name={icon} size={26} color="#1e1e1e" />
-    <Text style={[styles.itemText, { marginLeft: icon ? 20 : 0 }]}>{name}</Text>
+    <Text style={[styles.itemText, {marginLeft: icon ? 20 : 0}]}>{name}</Text>
     <FontAwesome name="angle-right" size={26} color="#1e1e1e" />
   </View>
 );
 
-const ProfileScreen = ({ navigation }) => {
-  const user = useSelector((state) => {
-    const listUser = [];
-    for (const key in state.user.users) {
-      listUser.push({
-        username: state.user.users[key].username,
-      })
-    }
-    return listUser;
-  });
+const ProfileScreen = ({navigation}) => {
+  // const userLogOut = useSelector((state) => {
+  //   const userInfo = [];
+  //   if(state.user.users.login)
+  //   {for (const key in state.user.users) {
+  //     userInfo.push({
+  //       userId: key,
+  //       userName: state.user.users[key].userName,
+  //       fullName: state.user.users[key].fullName,
+  //     });
+  //   }}
+  //   else userInfo.push({
+  //       userId: '',
+  //       userName: '',
+  //       fullName: '',
+  //   })
+  //   return userInfo[0].userId;
+  // });
 
-  console.log(user);
   const dispatch = useDispatch();
   return (
     <View style={styles.screenContainer}>
@@ -51,32 +65,95 @@ const ProfileScreen = ({ navigation }) => {
         {/*  */}
         <View style={styles.divider} />
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('ItemPost')}>Đăng bán</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Myitem')} />
+          <Text
+            style={[styles.itemText]}
+            onPress={() => navigation.navigate('ItemPost')}>
+            Đăng bán
+          </Text>
+          <FontAwesome
+            name="angle-right"
+            size={26}
+            color="#1e1e1e"
+            onPress={() => navigation.navigate('Myitem')}
+          />
         </View>
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Myitem')}>Quản lý cửa hàng</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Myitem')} />
+          <Text
+            style={[styles.itemText]}
+            onPress={() => navigation.navigate('Myitem')}>
+            Quản lý cửa hàng
+          </Text>
+          <FontAwesome
+            name="angle-right"
+            size={26}
+            color="#1e1e1e"
+            onPress={() => navigation.navigate('Myitem')}
+          />
         </View>
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Sản phẩm đã mua</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Register')} />
+          <Text
+            style={[styles.itemText]}
+            onPress={() => navigation.navigate('Register')}>
+            Sản phẩm đã mua
+          </Text>
+          <FontAwesome
+            name="angle-right"
+            size={26}
+            color="#1e1e1e"
+            onPress={() => navigation.navigate('Register')}
+          />
         </View>
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Sản phẩm đã xem gần đây</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Register')} />
+          <Text
+            style={[styles.itemText]}
+            onPress={() => navigation.navigate('Register')}>
+            Sản phẩm đã xem gần đây
+          </Text>
+          <FontAwesome
+            name="angle-right"
+            size={26}
+            color="#1e1e1e"
+            onPress={() => navigation.navigate('Register')}
+          />
         </View>
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Sản phẩm yêu thích</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Register')} />
+          <Text
+            style={[styles.itemText]}
+            onPress={() => navigation.navigate('Register')}>
+            Sản phẩm yêu thích
+          </Text>
+          <FontAwesome
+            name="angle-right"
+            size={26}
+            color="#1e1e1e"
+            onPress={() => navigation.navigate('Register')}
+          />
         </View>
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Sản phẩm mua sau</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Register')} />
+          <Text
+            style={[styles.itemText]}
+            onPress={() => navigation.navigate('Register')}>
+            Sản phẩm mua sau
+          </Text>
+          <FontAwesome
+            name="angle-right"
+            size={26}
+            color="#1e1e1e"
+            onPress={() => navigation.navigate('Register')}
+          />
         </View>
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => navigation.navigate('Register')}>Sản phẩm đánh giá"</Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Register')} />
+          <Text
+            style={[styles.itemText]}
+            onPress={() => navigation.navigate('Register')}>
+            Sản phẩm đánh giá"
+          </Text>
+          <FontAwesome
+            name="angle-right"
+            size={26}
+            color="#1e1e1e"
+            onPress={() => navigation.navigate('Register')}
+          />
         </View>
 
         {/* <ProfileItem icon="format-list-bulleted" name="Quản lý đơn hàng" />
@@ -92,12 +169,20 @@ const ProfileScreen = ({ navigation }) => {
         {/*  */}
         <View style={styles.divider} />
         <View style={styles.itemContainer}>
-          <Text style={[styles.itemText]} onPress={() => {
-            dispatch(userAction.logOutUser(user));
-            navigation.navigate('Register')}}>
+          <Text
+            style={[styles.itemText]}
+            onPress={() => {
+              dispatch(userAction.logOutUser());
+              navigation.navigate('Register');
+            }}>
             Hỗ trợ
           </Text>
-          <FontAwesome name="angle-right" size={26} color="#1e1e1e" onPress={() => navigation.navigate('Support')} />
+          <FontAwesome
+            name="angle-right"
+            size={26}
+            color="#1e1e1e"
+            onPress={() => navigation.navigate('Support')}
+          />
         </View>
       </View>
     </View>
@@ -105,19 +190,18 @@ const ProfileScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-
   screenContainer: {
     flex: 1,
   },
   bodyContainer: {
     flex: 1,
     backgroundColor: '#ededed',
-    position: 'relative'
+    position: 'relative',
   },
   buttonPost: {
     position: 'absolute',
     top: 10,
-    left: 0
+    left: 0,
   },
   //
   userContainer: {

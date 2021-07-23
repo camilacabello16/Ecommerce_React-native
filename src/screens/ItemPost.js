@@ -43,10 +43,18 @@ function ItemPost({ route, navigation }) {
     const [productWeight, setProductWeight] = useState();
     const [category, setCategory] = useState();
 
-    const userInfoSignin = useSelector((state) => {
-        const userInfo = state.user.users[0].fullName;
-        return userInfo;
-    })
+    // const userInfoSignin = useSelector((state) => {
+    //     const userInfo = [];
+    //     for(const key in state.user.users) {
+    //         userInfo.push({
+    //             userId: key,
+    //             userName: state.user.users[key].userName,
+    //             fullName: state.user.users[key].fullName,
+    //         })
+    //     }
+    //     return userInfo[0];
+    // })
+    const userInfoSignin = useSelector((state) => state.user.fullName);
 
     // useEffect(() => {
     //     // AsyncStorage.getItem("USER").then((value) => {

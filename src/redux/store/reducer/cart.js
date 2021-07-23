@@ -76,7 +76,6 @@ export default (state = initialState, action) => {
       const updateListCart = {...state.items};
       
       delete updateListCart[action.productId];
-      console.log(delItem)
       if (delItem.checked) {
         return {
           ...state,
